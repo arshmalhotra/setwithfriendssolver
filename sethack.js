@@ -71,8 +71,8 @@ function clickCards() {
 
 async function run(ms){
   while (true) {
-    await new Promise(r => setTimeout(r, ms));
     cardsClicked = clickCards();
     if (!cardsClicked) {break;}
+    await new Promise(r => setTimeout(r, ms));
   }
 }

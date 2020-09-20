@@ -2,18 +2,23 @@
 <html>
   <head>
     <style>
-      button {
-        height: 100px;
-        width: 100px;
-        outline: none;
+      body {
+        align-content: center;
       }
     </style>
   </head>
   <body>
-    <button id="clickSet">Solve a Set</button>
-    <label for="runLength">Delay (Default: 1s):</label>
-    <input type="text" id="runLength" />
-    <button id="run">Run</button>
+    <h1 class="title">Set Solver</h1>
+    <div class="click-set">
+      <button class="button" id="clickSet">Solve a Set</button>
+    </div>
+    <br>
+    <h3>OR</h3>
+    <br>
+    <div class="run-loop">
+      <input class="input" type="text" id="runLength" placeholder="Delay (Default: 10s)" >
+      <button class="button" id="run">Run</button>
+    </div>
     <script src="popup.js"></script>
   </body>
 </html>
