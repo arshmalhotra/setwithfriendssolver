@@ -1,32 +1,22 @@
-function getClassName(){
-  var potentialCards = document.querySelectorAll('div[class^="jss"]');
-  var className = "jss"
-  for (var i=0; i<potentialCards.length; i++) {
-    if (potentialCards[i].classList.length == 2) {
-      className = potentialCards[i].className;
-      break;
-    }
-  }
-  return className
-}
-
 function getData(cards) {
   var cardsDict = {}
   for (var i=0; i<cards.length; i++) {
-    var svgs = cards[i].getElementsByTagName("svg")
-    var number = svgs.length;
-    var uses = svgs[0].getElementsByTagName("use");
-    var shape = uses[0].getAttribute("href");
-    var fill = uses[0].getAttribute("fill");
-    if (fill != "transparent") {
-      fill = uses[0].getAttribute("mask");
-    }
-    var color = uses[1].getAttribute("stroke");
-    cardsDict[i] = {
-      'number': number,
-      'shape': shape,
-      'fill': fill,
-      'color': color
+    if (cards[i].classList.length == 2) {
+      var svgs = cards[i].getElementsByTagName("svg");
+      var number = svgs.length;
+      var uses = svgs[0].getElementsByTagName("use");
+      var shape = uses[0].getAttribute("href");
+      var fill = uses[0].getAttribute("fill");
+      if (fill != "transparent") {
+        fill = uses[0].getAttribute("mask");
+      }
+      var color = uses[1].getAttribute("stroke");
+      cardsDict[i] = {
+        'number': number,
+        'shape': shape,
+        'fill': fill,
+        'color': color
+      }
     }
   }
   return cardsDict
@@ -39,13 +29,14 @@ function comparisons(a, b, c) {
 }
 
 function findSet(cardsDict) {
-  var dictLength = Object.keys(cardsDict).length
-  for (var i=0; i<dictLength; i++) {
-    var first = cardsDict[i];
-    for (var j=i+1; j<dictLength; j++) {
-      var second = cardsDict[j];
-      for (var k=j+1; k<dictLength; k++) {
-        var third = cardsDict[k];
+  var keys = Object.keys(cardsDict)
+  var length = keys.length
+  for (var i=0; i<length; i++) {
+    var first = cardsDict[keys[i]];
+    for (var j=i+1; j<length; j++) {
+      var second = cardsDict[keys[j]];
+      for (var k=j+1; k<length; k++) {
+        var third = cardsDict[keys[k]];
         var set = true;
         if (!comparisons(first['number'], second['number'], third['number'])) {
           set = false;
@@ -60,15 +51,15 @@ function findSet(cardsDict) {
           set = false;
         }
         if (set) {
-          return [i, j, k]
+          return [keys[i], keys[j], keys[k]]
         }
       }
     }
   }
 }
 
-function clickCards(className) {
-  var cards = document.getElementsByClassName(className);
+function clickCards() {
+  var cards = document.querySelectorAll('span.MuiTypography-root.MuiTypography-caption.MuiTypography-alignCenter ~ div > div');
   var data = getData(cards);
   var set = findSet(data);
   if (set == undefined){return false;}
@@ -79,10 +70,9 @@ function clickCards(className) {
 }
 
 async function run(ms){
-  var className = getClassName();
   while (true) {
     await new Promise(r => setTimeout(r, ms));
-    cardsClicked = clickCards(className);
+    cardsClicked = clickCards();
     if (!cardsClicked) {break;}
   }
 }

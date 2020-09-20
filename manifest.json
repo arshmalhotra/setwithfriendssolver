@@ -1,0 +1,14 @@
+{
+  "name": "Set Solver",
+  "version": "1.1",
+  "description": "Let us solve your game of Set with Friends.",
+  "permissions": ["activeTab", "declarativeContent"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 2
+}
